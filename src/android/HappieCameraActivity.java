@@ -23,7 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iparq.Colt.R; //parent project package
+import com.iparq.ritd.R; //parent project package
 
 import org.apache.cordova.PluginResult;
 
