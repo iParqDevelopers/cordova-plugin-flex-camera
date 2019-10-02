@@ -23,7 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jobnimbus.JobNimbus2.R; //parent project package
+import com.iparq.ritd.R; //parent project package
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,6 +57,8 @@ public class HappieCameraActivity extends Activity {
     private ImageView upperRightThumbnail;
     private ImageView lowerLeftThumbnail;
     private ImageView lowerRightThumbnail;
+    private ImageView badgeBackground;
+    private ImageView confirm;
     private TextView badgeCount;
     private int quadState;  //0 = UL , 1 = UR, 2 = LL, 3 = LR
     private int flashState = 2;//camera_flash_auto
@@ -70,6 +72,7 @@ public class HappieCameraActivity extends Activity {
     protected HappieCameraThumb thumbGen = new HappieCameraThumb();
 
     private Camera mCamera;
+    private int happie_cam_layout;
 
     /**
      * UI State Functions
@@ -117,6 +120,13 @@ public class HappieCameraActivity extends Activity {
         lowerLeftThumbnail = (ImageView) findViewById(R.id.LowerLeft);
         lowerRightThumbnail = (ImageView) findViewById(R.id.LowerRight);
         badgeCount = (TextView) findViewById(R.id.badgeCount);
+        badgeBackground = (ImageView) findViewById(R.id.badgeBackground);
+        confirm = (ImageView) findViewById(R.id.confirm);
+
+//        TableLayout tl = (TableLayout)findeViewById(R.id.confirm);
+//
+//        R.drawable.camera_album_badge
+//        R.drawable.camera_confirm_button
 
         quadState = 0;
 
@@ -137,25 +147,35 @@ public class HappieCameraActivity extends Activity {
             Log.d(TAG, "media thumbnail directory already created");
         }
 
-        String[] thumbFiles = mediaThumbDir.list();
-        for (String file : thumbFiles) {
-            File image = new File(mediaThumbDir, file);
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
-            if (quadState == 0) {
-                upperLeftThumbnail.setImageBitmap(bitmap);
-                quadState = 1;
-            } else if (quadState == 1) {
-                upperRightThumbnail.setImageBitmap(bitmap);
-                quadState = 2;
-            } else if (quadState == 2) {
-                lowerLeftThumbnail.setImageBitmap(bitmap);
-                quadState = 3;
-            } else if (quadState == 3) {
-                lowerRightThumbnail.setImageBitmap(bitmap);
-                quadState = 0;
-            }
-        }
+        // String[] thumbFiles = mediaThumbDir.list();
+        // for (String file : thumbFiles) {
+        //     File image = new File(mediaThumbDir, file);
+        //     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        //     Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
+        //     if (quadState == 0) {
+        //         upperLeftThumbnail.setImageBitmap(bitmap);
+        //         quadState = 1;
+        //     } else if (quadState == 1) {
+        //         upperRightThumbnail.setImageBitmap(bitmap);
+        //         quadState = 2;
+        //     } else if (quadState == 2) {
+        //         lowerLeftThumbnail.setImageBitmap(bitmap);
+        //         quadState = 3;
+        //     } else if (quadState == 3) {
+        //         lowerRightThumbnail.setImageBitmap(bitmap);
+        //         quadState = 0;
+        //     }
+        // }
+
+        badgeCounter = 0;
+        upperLeftThumbnail.setImageBitmap((null));
+        upperRightThumbnail.setImageBitmap((null));
+        lowerLeftThumbnail.setImageBitmap((null));
+        lowerRightThumbnail.setImageBitmap((null));
+
+        badgeCount.setVisibility(View.GONE);
+        badgeBackground.setVisibility(View.GONE);
+        confirm.setVisibility(View.GONE);
 
         badgeCount.setText(Integer.toString(HappieCameraJSON.GET_TOTAL_IMAGES(HappieCamera.userId, HappieCamera.jnId)));
 
@@ -242,7 +262,9 @@ public class HappieCameraActivity extends Activity {
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
 
-            params.setJpegQuality(85);
+            //hardwired to set picture size to 1280 x 960. this was changed by Anthony
+            params.setPictureSize(1280, 960);
+            params.setJpegQuality(50);
             mCamera.setParameters(params);
         } catch (Exception e) {
             //There is an intermittent failure while running setParameters, do not close the camera in that case
@@ -410,6 +432,9 @@ public class HappieCameraActivity extends Activity {
 
             if (quadState == 0) {
                 quadState = 1;
+                badgeCount.setVisibility(View.VISIBLE);
+                badgeBackground.setVisibility(View.VISIBLE);
+                confirm.setVisibility(View.VISIBLE);
             } else if (quadState == 1) {
                 quadState = 2;
             } else if (quadState == 2) {
@@ -502,6 +527,9 @@ public class HappieCameraActivity extends Activity {
         protected void onPostExecute(android.graphics.Bitmap preview) {
             if (quadState == 0) {
                 upperLeftThumbnail.setImageBitmap(preview);
+                upperRightThumbnail.setImageBitmap((null));
+                lowerLeftThumbnail.setImageBitmap((null));
+                lowerRightThumbnail.setImageBitmap((null));
             } else if (quadState == 1) {
                 upperRightThumbnail.setImageBitmap((preview));
             } else if (quadState == 2) {
