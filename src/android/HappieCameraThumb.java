@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
+import org.apache.commons.io.FileUtils;
+
 // import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
 
 
