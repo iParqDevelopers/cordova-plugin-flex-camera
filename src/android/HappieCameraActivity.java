@@ -167,7 +167,6 @@ public class HappieCameraActivity extends Activity {
         //     }
         // }
 
-        badgeCounter = 0;
         upperLeftThumbnail.setImageBitmap((null));
         upperRightThumbnail.setImageBitmap((null));
         lowerLeftThumbnail.setImageBitmap((null));
