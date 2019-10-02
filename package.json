@@ -1,9 +1,9 @@
 {
-  "name": "CustomCamera",
+  "name": "cordova-plugin-flex-camera",
   "version": "1.0.0",
   "description": "Custom Native Camera for iOS and Android",
   "cordova": {
-    "id": "com.jobnimbus.customcamera",
+    "id": "cordova-plugin-flex-camera",
     "platforms": [
       "android",
       "ios"
