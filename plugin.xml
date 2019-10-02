@@ -59,7 +59,7 @@
         <framework src="com.fasterxml.jackson.core:jackson-databind:2.5.3"/>
         <framework src="com.fasterxml.jackson.module:jackson-module-afterburner:2.5.3"/>
         <framework src="src/android/jackson/jacksonSetup.gradle" custom="true" type="gradleReference"/>
-        <framework src="commons-io:commons-io:jar:2.6"/>
+        <framework src="commons-io:commons-io:2.6"/>
     </platform>
     <platform name="ios">
         <engines>
