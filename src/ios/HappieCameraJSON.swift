@@ -1,5 +1,5 @@
 import Foundation
-import Raygun4iOS
+// import Raygun4iOS
 
 @objc class HappieCameraJSON : NSObject  {
     override init(){ super.init() }

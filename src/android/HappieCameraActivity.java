@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
+// import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
 
 /**
  * import com.jobnimbus.moderncamera.R; //Used For testing with the intenral ionic project
@@ -382,7 +382,7 @@ public class HappieCameraActivity extends Activity {
                 mCamera.takePicture(null, null, capturePicture); //shutter, raw, jpeg
             }
             catch(Exception e){
-                RaygunClient.send(e);
+                // RaygunClient.send(e);
             }
         }
     };

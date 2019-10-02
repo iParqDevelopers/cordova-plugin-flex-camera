@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
+// import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
 
 public class HappieCamera extends CordovaPlugin {
 
@@ -68,12 +68,12 @@ public class HappieCamera extends CordovaPlugin {
                     fos = new FileOutputStream(jsonFile);
                     fos.write(json.getBytes("UTF-8"));
                 } catch (Exception e) {
-                    RaygunClient.send(e);
+                    // RaygunClient.send(e);
                 } finally {
                     try {
                         fos.close();
                     } catch (Exception ex) {
-                        RaygunClient.send(ex);
+                        // RaygunClient.send(ex);
                     }
                 }
             }
@@ -98,12 +98,12 @@ public class HappieCamera extends CordovaPlugin {
                             fin = new FileInputStream(file);
                             responseBuffer.add(convertStreamToString(fin));
                         } catch (Exception e) {
-                            RaygunClient.send(e);
+                            // RaygunClient.send(e);
                         } finally {
                             try {
                                 fin.close();
                             } catch (Exception ex) {
-                                RaygunClient.send(ex);
+                                // RaygunClient.send(ex);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ public class HappieCamera extends CordovaPlugin {
             try {
                 reader.close();
             } catch (Exception e) {
-                RaygunClient.send(e);
+                // RaygunClient.send(e);
             }
         }
     }
@@ -167,7 +167,7 @@ public class HappieCamera extends CordovaPlugin {
             });
 
         } catch (IllegalArgumentException e) {
-            RaygunClient.send(e);
+            // RaygunClient.send(e);
             return false;
         }
         return true;
@@ -192,12 +192,12 @@ public class HappieCamera extends CordovaPlugin {
                         jnid = args.getString(2);
                     }
                     catch(Exception e){
-                        RaygunClient.send(e);
+                        // RaygunClient.send(e);
                     }
                     HappieCameraThumb thumbGen = new HappieCameraThumb();
                     thumbGen.createThumbAtPathWithName(name,user, jnid, context);
                 } catch (Exception e) {
-                    RaygunClient.send(e);
+                    // RaygunClient.send(e);
                 }
             }
         });

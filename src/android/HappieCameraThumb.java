@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 
-import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
+// import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
 
 
 class HappieCameraThumb {
@@ -47,13 +47,13 @@ class HappieCameraThumb {
             exifThumb.setAttribute(ExifInterface.TAG_ORIENTATION, orientation);
             exifThumb.saveAttributes();
         } catch (Exception e) {
-            RaygunClient.send(e);
+            // RaygunClient.send(e);
             return false;
         } finally {
             try {
                 fosThumb.close();
             } catch (NullPointerException e) {
-                RaygunClient.send(e);
+                // RaygunClient.send(e);
             }
         }
         return true;
@@ -80,14 +80,14 @@ class HappieCameraThumb {
             fosThumb = new FileOutputStream(file);
             fosThumb.write(thumbnailByteArray);
         } catch (Exception e) {
-            RaygunClient.send(e);
+            // RaygunClient.send(e);
         }
         finally {
             try{
                 fosThumb.close();
             }
             catch (Exception e){
-                RaygunClient.send(e);
+                // RaygunClient.send(e);
             }
         }
         return orientedBmp;

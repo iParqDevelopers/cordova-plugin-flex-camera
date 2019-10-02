@@ -3,7 +3,7 @@ package io.happie.cordovaCamera;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
+// import main.java.com.mindscapehq.android.raygun4android.RaygunClient;
 
 class HappieCameraJSON {
 
@@ -48,7 +48,7 @@ class HappieCameraJSON {
             return total;
         }
         catch(Exception e){
-            RaygunClient.send(e);
+            // RaygunClient.send(e);
             return -1;
         }
     }

@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Raygun4iOS
+// import Raygun4iOS
 
 @objc(HappieCamera) class HappieCamera : CDVPlugin, cameraDelegate  {
     
@@ -22,7 +22,7 @@ import Raygun4iOS
                 try json.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
             }
             catch {
-                (Raygun.sharedReporter() as! Raygun).send("failed to write photo json", withReason: "unknown", withTags:nil, withUserCustomData:nil)
+                // (Raygun.sharedReporter() as! Raygun).send("failed to write photo json", withReason: "unknown", withTags:nil, withUserCustomData:nil)
             }
         }
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "finished writing json")
@@ -51,7 +51,7 @@ import Raygun4iOS
 	            commandDelegate!.send(pluginResult, callbackId:command.callbackId)
 	        }
 	        catch{
-	            (Raygun.sharedReporter() as! Raygun).send("failed to read photo json", withReason: "Failure in readPhotoMeta iOS", withTags:nil, withUserCustomData:nil)
+	            // (Raygun.sharedReporter() as! Raygun).send("failed to read photo json", withReason: "Failure in readPhotoMeta iOS", withTags:nil, withUserCustomData:nil)
 	            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: String(format: "[]"))
 	            commandDelegate!.send(pluginResult, callbackId:command.callbackId)
 	        }
