@@ -15,10 +15,10 @@ running this from the root folder pulls out the native source into the appropria
 run this from the ionic root to inject the plugins from the repository (recursive)
 
     gulp config
-    
+
 to inject the plugin use 
-    cordova plugin add https://github.com/jfspencer/jobnimbus-modern-camera.git
-    
+    cordova plugin add https://github.com/happieio/cordova-plugin-flex-camera.git
+
 hooks/addSwiftOptions.js needs to be copied into your projects hooks folder within after_plugin_add .
 
 
