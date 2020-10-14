@@ -2,14 +2,14 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
-        id="happie-plugin-cordova-camera"
+        id="cordova-plugin-flex-camera"
         version="1.0.0">
-    <name>CustomCamera</name>
+    <name>HappieCamera</name>
     <description>A custom Cordova camera focused on taking multiple high quality images in a single session</description>
     <license>MIT</license>
     <keywords>new, camera, multi, photo, modern, ecosystem:cordova</keywords>
-    <repo>https://github.com/jfspencer/happie-plugin-cordova-camera.git</repo>
-    <issue>https://github.com/jfspencer/happie-plugin-cordova-camera/issues</issue>
+    <repo>https://github.com/happieio/cordova-plugin-flex-camera.git</repo>
+    <issue>https://github.com/happieio/cordova-plugin-flex-camera/issues</issue>
 
     <js-module src="www/HappieCamera.js" name="HappieCamera">
         <clobbers target="HappieCamera"/>
