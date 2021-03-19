@@ -200,7 +200,7 @@ public class HappieCameraActivity extends Activity {
             mCamera = Camera.open();
             Camera.Parameters params = mCamera.getParameters();
             params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            switch (flashState){
+            switch (flashState) {
                 case 1:
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     flash.setImageResource(R.drawable.camera_flash_off);
@@ -218,9 +218,9 @@ public class HappieCameraActivity extends Activity {
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
             int i = 0;
             Camera.Size jnLimit = null;
-            switch(HappieCamera.quality){
+            switch (HappieCamera.quality) {
                 case 0: // High Compression
-                    jnLimit = mCamera.new Size(1024,  768);
+                    jnLimit = mCamera.new Size(1024, 768);
                     break;
                 case 1: // Medium Compression
                     jnLimit = mCamera.new Size(2560, 1440);
@@ -230,36 +230,57 @@ public class HappieCameraActivity extends Activity {
                     break;
             }
 
-            if(jnLimit != null && validPhotoDimensions.size() != 1) {
+            int lastLongSide = 0, lastShortSide = 0;
+            if (jnLimit != null && validPhotoDimensions.size() != 1) {
                 i = validPhotoDimensions.size();
-                while(--i > 0) {
+                while (--i > 0) {
                     Camera.Size tmp = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-                    if(tmp.width > tmp.height) {
-                        longSide  = tmp.width;
+                    if (tmp.width > tmp.height) {
+                        longSide = tmp.width;
                         shortSide = tmp.height;
                     } else {
-                        longSide  = tmp.height;
+                        longSide = tmp.height;
                         shortSide = tmp.width;
                     }
-                    if(jnLimit.width >= longSide && jnLimit.height >= shortSide) {
-                        break;
+                    if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
+                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                            lastLongSide = longSide;
+                            lastShortSide = shortSide;
+                        } else {
+                            i++;
+                            break;
+                        }
+                    } else {
+                        if(lastLongSide!=0 && lastShortSide!=0) {
+                            i++;
+                            break;
+                        }
                     }
                 }
             }
             Camera.Size currentSize = params.getPictureSize();
             Camera.Size maxSize = validPhotoDimensions.get(i);
-            if(currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
+            if (currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
 
             params.setJpegQuality(85);
             mCamera.setParameters(params);
         } catch (Exception e) {
-            String errMsg = e.getMessage();
-            HappieCamera.callbackContext.error(errMsg);
-            PluginResult r = new PluginResult(PluginResult.Status.ERROR);
-            HappieCamera.callbackContext.sendPluginResult(r);
+            //There is an intermittent failure while running setParameters, do not close the camera in that case
+            //since the call back will fire pre-maturely and JN will not get notified.
+            Camera.Parameters params = mCamera.getParameters();
+            if (params.getSupportedPictureSizes() != null) {
+                Camera.Size currentSize = params.getPictureSize();
+                Camera.Size maxSize = params.getSupportedPictureSizes().get(0);
+                if (currentSize.height < maxSize.height ||
+                        currentSize.width < maxSize.width) {
+                    params.setPictureSize(maxSize.width, maxSize.height);
+                }
+            }
+            params.setJpegQuality(85);
+            mCamera.setParameters(params);
         }
     }
 
