@@ -216,6 +216,12 @@ public class HappieCameraActivity extends Activity {
 
 
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+
+            for(i = 0; i < validPhotoDimensions.size(); i++) {
+                Camera.Size tmp = validPhotoDimensions.get(i);
+                Log.d(TAG, "Supported Picture Size: " + tmp.width + "x" tmp.height);
+            }
+
             int i = 0;
             Camera.Size jnLimit = null;
             switch (HappieCamera.quality) {
@@ -262,32 +268,60 @@ public class HappieCameraActivity extends Activity {
                     }
                 }
             }
+
             Camera.Size currentSize = params.getPictureSize();
             Camera.Size maxSize = validPhotoDimensions.get(i);
+
+            Log.d(TAG, "current width: " + currentSize.width);
+            Log.d(TAG, "current height: " + currentSize.height);
+            Log.d(TAG, "max width: " + maxSize.width);
+            Log.d(TAG, "max height: " + maxSize.height);
+
             if (currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
-                Log.d(TAG, "max width: " + maxSize.width);
-                Log.d(TAG, "max height: " + maxSize.height);
+                Log.d(TAG, "current size less than max size");
 
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
 
+            Camera.Size pictureSize = params.getPictureSize();
+            Log.d(TAG, "set picture width: " + pictureSize.width);
+            Log.d(TAG, "set picture height: " + pictureSize.height);
+
             params.setJpegQuality(85);
             mCamera.setParameters(params);
         } catch (Exception e) {
+            Log.d(TAG, "initCameraSession exception: " + e.getMessage());
+
             //There is an intermittent failure while running setParameters, do not close the camera in that case
             //since the call back will fire pre-maturely and JN will not get notified.
+
+            List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+            for(i = 0; i < validPhotoDimensions.size(); i++) {
+                Camera.Size tmp = validPhotoDimensions.get(i);
+                Log.d(TAG, "Catch Execption Supported Picture Size: " + tmp.width + "x" tmp.height);
+            }
+
             Camera.Parameters params = mCamera.getParameters();
-            if (params.getSupportedPictureSizes() != null) {
+            if (validPhotoDimensions != null) {
                 Camera.Size currentSize = params.getPictureSize();
-                Camera.Size maxSize = params.getSupportedPictureSizes().get(0);
-                if (currentSize.height < maxSize.height ||
-                        currentSize.width < maxSize.width) {
-                    Log.d(TAG, "catch exception max width: " + maxSize.width);
-                    Log.d(TAG, "catch exception max height: " + maxSize.height);
+                Camera.Size maxSize = validPhotoDimensions.get(0);
+
+                Log.d(TAG, "current width: " + currentSize.width);
+                Log.d(TAG, "current height: " + currentSize.height);
+                Log.d(TAG, "max width: " + maxSize.width);
+                Log.d(TAG, "max height: " + maxSize.height);
+
+                if (currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
+                    Log.d(TAG, "catch exception current size less than max size");
 
                     params.setPictureSize(maxSize.width, maxSize.height);
                 }
             }
+
+            Camera.Size pictureSize = params.getPictureSize();
+            Log.d(TAG, "catch exception set width: " + pictureSize.width);
+            Log.d(TAG, "catch exception set height: " + pictureSize.height);
+
             params.setJpegQuality(85);
             mCamera.setParameters(params);
         }
