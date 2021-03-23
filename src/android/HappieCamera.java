@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -23,9 +24,13 @@ public class HappieCamera extends CordovaPlugin {
 
     public static Integer quality;
 
+    private static final String TAG = "HappieCamera";
+
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
         this.quality = (Integer) args.getJSONObject(0).get("quality");
+        Log.d(TAG, "Quality: " + this.quality);
+
         this.callbackContext = callbackContext;
         currentAction = action;
 
