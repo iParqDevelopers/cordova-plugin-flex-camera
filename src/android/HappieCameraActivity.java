@@ -217,7 +217,7 @@ public class HappieCameraActivity extends Activity {
 
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
 
-            for(i = 0; i < validPhotoDimensions.size(); i++) {
+            for(int i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
                 Log.d(TAG, "Supported Picture Size: " + tmp.width + "x" + tmp.height);
             }
@@ -295,13 +295,14 @@ public class HappieCameraActivity extends Activity {
             //There is an intermittent failure while running setParameters, do not close the camera in that case
             //since the call back will fire pre-maturely and JN will not get notified.
 
+            Camera.Parameters params = mCamera.getParameters();
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
-            for(i = 0; i < validPhotoDimensions.size(); i++) {
+
+            for(int i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
                 Log.d(TAG, "Catch Execption Supported Picture Size: " + tmp.width + "x" + tmp.height);
             }
 
-            Camera.Parameters params = mCamera.getParameters();
             if (validPhotoDimensions != null) {
                 Camera.Size currentSize = params.getPictureSize();
                 Camera.Size maxSize = validPhotoDimensions.get(0);
