@@ -271,10 +271,7 @@ public class HappieCameraActivity extends Activity {
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
 
-            //hardwired to set picture size to 1280 x 960. this was changed by Anthony
-            params.setPictureSize(1280, 960);
-            params.setJpegQuality(50);
-
+            params.setJpegQuality(85);
             mCamera.setParameters(params);
         } catch (Exception e) {
             //There is an intermittent failure while running setParameters, do not close the camera in that case
@@ -291,11 +288,7 @@ public class HappieCameraActivity extends Activity {
                     params.setPictureSize(maxSize.width, maxSize.height);
                 }
             }
-
-            //hardwired to set picture size to 1280 x 960. this was changed by Anthony
-            params.setPictureSize(1280, 960);
-            params.setJpegQuality(50);
-
+            params.setJpegQuality(85);
             mCamera.setParameters(params);
         }
     }
