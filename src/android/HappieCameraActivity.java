@@ -219,7 +219,7 @@ public class HappieCameraActivity extends Activity {
 
             for(i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Supported Picture Size: " + tmp.width + "x" tmp.height);
+                Log.d(TAG, "Supported Picture Size: " + tmp.width + "x" + tmp.height);
             }
 
             int i = 0;
@@ -298,7 +298,7 @@ public class HappieCameraActivity extends Activity {
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
             for(i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Catch Execption Supported Picture Size: " + tmp.width + "x" tmp.height);
+                Log.d(TAG, "Catch Execption Supported Picture Size: " + tmp.width + "x" + tmp.height);
             }
 
             Camera.Parameters params = mCamera.getParameters();
