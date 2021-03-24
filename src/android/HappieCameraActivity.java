@@ -226,15 +226,15 @@ public class HappieCameraActivity extends Activity {
             Camera.Size jnLimit = null;
             switch (HappieCamera.quality) {
                 case 0: // High Compression
-                    Log.d(TAG, "Size: 1280x720");
+                    Log.d(TAG, "High Compression: 1280x720");
                     jnLimit = mCamera.new Size(1280, 720);
                     break;
                 case 1: // Medium Compression
-                    Log.d(TAG, "Size: 2560x1440");
+                    Log.d(TAG, "Medium Compression: 2560x1440");
                     jnLimit = mCamera.new Size(2560, 1440);
                     break;
                 case 2: // Low Compression
-                    Log.d(TAG, "Size: 4096x2304");
+                    Log.d(TAG, "Low Compression: 4096x2304");
                     jnLimit = mCamera.new Size(4096, 2304);
                     break;
             }
@@ -272,10 +272,8 @@ public class HappieCameraActivity extends Activity {
             Camera.Size currentSize = params.getPictureSize();
             Camera.Size maxSize = validPhotoDimensions.get(i);
 
-            Log.d(TAG, "current width: " + currentSize.width);
-            Log.d(TAG, "current height: " + currentSize.height);
-            Log.d(TAG, "max width: " + maxSize.width);
-            Log.d(TAG, "max height: " + maxSize.height);
+            Log.d(TAG, "current size: " + currentSize.width + "x" + currentSize.height);
+            Log.d(TAG, "max size: " + maxSize.width + "x" + maxSize.height);
 
             if (currentSize.height > maxSize.height || currentSize.width > maxSize.width) {
                 Log.d(TAG, "current size greater than max size, resize to max size " + maxSize.width + "x" + maxSize.height);
@@ -284,8 +282,7 @@ public class HappieCameraActivity extends Activity {
             }
 
             Camera.Size pictureSize = params.getPictureSize();
-            Log.d(TAG, "set picture width: " + pictureSize.width);
-            Log.d(TAG, "set picture height: " + pictureSize.height);
+            Log.d(TAG, "picture size: " + pictureSize.width + "x" + pictureSize.height);
 
             params.setJpegQuality(85);
             mCamera.setParameters(params);
@@ -303,14 +300,59 @@ public class HappieCameraActivity extends Activity {
                 Log.d(TAG, "Exception: Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
             }
 
+            int i = 0;
+            Camera.Size jnLimit = null;
+            switch (HappieCamera.quality) {
+                case 0: // High Compression
+                    Log.d(TAG, "Exception: High Compression: 1280x720");
+                    jnLimit = mCamera.new Size(1280, 720);
+                    break;
+                case 1: // Medium Compression
+                    Log.d(TAG, "Exception: Medium Compression: 2560x1440");
+                    jnLimit = mCamera.new Size(2560, 1440);
+                    break;
+                case 2: // Low Compression
+                    Log.d(TAG, "Exception: Low Compression: 4096x2304");
+                    jnLimit = mCamera.new Size(4096, 2304);
+                    break;
+            }
+
+            int lastLongSide = 0, lastShortSide = 0;
+            if (jnLimit != null && validPhotoDimensions.size() != 1) {
+                i = validPhotoDimensions.size();
+                while (--i > 0) {
+                    Camera.Size tmp = validPhotoDimensions.get(i);
+                    int longSide, shortSide;
+                    if (tmp.width > tmp.height) {
+                        longSide = tmp.width;
+                        shortSide = tmp.height;
+                    } else {
+                        longSide = tmp.height;
+                        shortSide = tmp.width;
+                    }
+                    if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
+                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                            lastLongSide = longSide;
+                            lastShortSide = shortSide;
+                        } else {
+                            i++;
+                            break;
+                        }
+                    } else {
+                        if(lastLongSide!=0 && lastShortSide!=0) {
+                            i++;
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (validPhotoDimensions != null) {
                 Camera.Size currentSize = params.getPictureSize();
-                Camera.Size maxSize = validPhotoDimensions.get(0);
+                Camera.Size maxSize = validPhotoDimensions.get(i);
 
-                Log.d(TAG, "current width: " + currentSize.width);
-                Log.d(TAG, "current height: " + currentSize.height);
-                Log.d(TAG, "max width: " + maxSize.width);
-                Log.d(TAG, "max height: " + maxSize.height);
+                Log.d(TAG, "exception: current size: " + currentSize.width + "x" + currentSize.height);
+                Log.d(TAG, "exception: max size: " + maxSize.width + "x" + maxSize.height);
 
                 if (currentSize.height > maxSize.height || currentSize.width > maxSize.width) {
                     Log.d(TAG, "exception: current size greater than max size, resize to max size " + maxSize.width + "x" + maxSize.height);
@@ -320,8 +362,7 @@ public class HappieCameraActivity extends Activity {
             }
 
             Camera.Size pictureSize = params.getPictureSize();
-            Log.d(TAG, "exception: set width: " + pictureSize.width);
-            Log.d(TAG, "exception: set height: " + pictureSize.height);
+            Log.d(TAG, "exception: picture size: " + pictureSize.width + "x" + pictureSize.height);
 
             params.setJpegQuality(85);
             mCamera.setParameters(params);
