@@ -219,7 +219,7 @@ public class HappieCameraActivity extends Activity {
 
             for(int i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Supported Picture Size: " + tmp.width + "x" + tmp.height);
+                Log.d(TAG, "Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
             }
 
             int i = 0;
@@ -277,8 +277,8 @@ public class HappieCameraActivity extends Activity {
             Log.d(TAG, "max width: " + maxSize.width);
             Log.d(TAG, "max height: " + maxSize.height);
 
-            if (currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
-                Log.d(TAG, "current size less than max size");
+            if (currentSize.height > maxSize.height || currentSize.width > maxSize.width) {
+                Log.d(TAG, "current size greater than max size, resize to max size " + maxSize.width + "x" + maxSize.height);
 
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
@@ -300,7 +300,7 @@ public class HappieCameraActivity extends Activity {
 
             for(int i = 0; i < validPhotoDimensions.size(); i++) {
                 Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Catch Execption Supported Picture Size: " + tmp.width + "x" + tmp.height);
+                Log.d(TAG, "Catch Exception Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
             }
 
             if (validPhotoDimensions != null) {
