@@ -284,7 +284,7 @@ public class HappieCameraActivity extends Activity {
             Camera.Size pictureSize = params.getPictureSize();
             Log.d(TAG, "picture size: " + pictureSize.width + "x" + pictureSize.height);
 
-            params.setJpegQuality(85);
+            params.setJpegQuality(50);
             mCamera.setParameters(params);
         } catch (Exception e) {
             Log.d(TAG, "initCameraSession exception: " + e.getMessage());
@@ -364,7 +364,7 @@ public class HappieCameraActivity extends Activity {
             Camera.Size pictureSize = params.getPictureSize();
             Log.d(TAG, "exception: picture size: " + pictureSize.width + "x" + pictureSize.height);
 
-            params.setJpegQuality(85);
+            params.setJpegQuality(50);
             mCamera.setParameters(params);
         }
     }
