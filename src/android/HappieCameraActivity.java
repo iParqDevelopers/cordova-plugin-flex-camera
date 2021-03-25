@@ -214,12 +214,17 @@ public class HappieCameraActivity extends Activity {
                     flash.setImageResource(R.drawable.camera_flash_on);
             }
 
+            List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
+            List<Camera.Size> validPhotoDimensions;
 
-            List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+            for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
+                Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
 
-            for(int i = 0; i < validPhotoDimensions.size(); i++) {
-                Camera.Size validDimensions = validPhotoDimensions.get(i);
-                Log.d(TAG, "Supported Picture Size i=" + i + ": " + validDimensions.width + "x" + validDimensions.height);
+                // Remove square dimensions
+                if (supportedDimensions.width != supportedDimensions.height) {
+                    Log.d(TAG, "Supported Picture Size i=" + i + ": " + supportedDimensions.width + "x" + supportedDimensions.height);
+                    validPhotoDimensions.add(supportedDimensions);
+                }
             }
 
             int i = 0;
@@ -245,9 +250,6 @@ public class HappieCameraActivity extends Activity {
                 while (--i > 0) {
                     Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-
-                    // Skip square dimensions as they trigger selecting smaller image dimensions
-                    if (validDimensions.width == validDimensions.height) continue;
 
                     if (validDimensions.width > validDimensions.height) {
                         longSide = validDimensions.width;
@@ -298,11 +300,17 @@ public class HappieCameraActivity extends Activity {
             //since the call back will fire pre-maturely and JN will not get notified.
 
             Camera.Parameters params = mCamera.getParameters();
-            List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+            List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
+            List<Camera.Size> validPhotoDimensions;
 
-            for(int i = 0; i < validPhotoDimensions.size(); i++) {
-                Camera.Size validDimensions = validPhotoDimensions.get(i);
-                Log.d(TAG, "Exception: Supported Picture Size i=" + i + ": " + validDimensions.width + "x" + validDimensions.height);
+            for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
+                Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
+
+                // Remove square dimensions
+                if (supportedDimensions.width != supportedDimensions.height) {
+                    Log.d(TAG, "Supported Picture Size i=" + i + ": " + supportedDimensions.width + "x" + supportedDimensions.height);
+                    validPhotoDimensions.add(supportedDimensions);
+                }
             }
 
             int i = 0;
@@ -328,9 +336,6 @@ public class HappieCameraActivity extends Activity {
                 while (--i > 0) {
                     Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-
-                    // Skip square dimensions as they trigger selecting smaller image dimensions
-                    if (validDimensions.width == validDimensions.height) continue;
 
                     if (validDimensions.width > validDimensions.height) {
                         longSide = validDimensions.width;
