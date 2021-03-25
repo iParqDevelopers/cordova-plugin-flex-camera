@@ -226,8 +226,8 @@ public class HappieCameraActivity extends Activity {
             Camera.Size jnLimit = null;
             switch (HappieCamera.quality) {
                 case 0: // High Compression
-                    Log.d(TAG, "High Compression: 1280x720");
-                    jnLimit = mCamera.new Size(1280, 720);
+                    Log.d(TAG, "High Compression: 1280x960");
+                    jnLimit = mCamera.new Size(1280, 960);
                     break;
                 case 1: // Medium Compression
                     Log.d(TAG, "Medium Compression: 2560x1440");
@@ -304,8 +304,8 @@ public class HappieCameraActivity extends Activity {
             Camera.Size jnLimit = null;
             switch (HappieCamera.quality) {
                 case 0: // High Compression
-                    Log.d(TAG, "Exception: High Compression: 1280x720");
-                    jnLimit = mCamera.new Size(1280, 720);
+                    Log.d(TAG, "Exception: High Compression: 1280x960");
+                    jnLimit = mCamera.new Size(1280, 960);
                     break;
                 case 1: // Medium Compression
                     Log.d(TAG, "Exception: Medium Compression: 2560x1440");
