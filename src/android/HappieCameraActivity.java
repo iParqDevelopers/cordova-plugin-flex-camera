@@ -253,7 +253,7 @@ public class HappieCameraActivity extends Activity {
                         shortSide = tmp.width;
                     }
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
-                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                        if (lastLongSide <= longSide && lastShortSide <= shortSide) {
                             lastLongSide = longSide;
                             lastShortSide = shortSide;
                         } else {
@@ -331,7 +331,7 @@ public class HappieCameraActivity extends Activity {
                         shortSide = tmp.width;
                     }
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
-                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                        if (lastLongSide <= longSide && lastShortSide <= shortSide) {
                             lastLongSide = longSide;
                             lastShortSide = shortSide;
                         } else {
