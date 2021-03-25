@@ -200,7 +200,7 @@ public class HappieCameraActivity extends Activity {
             mCamera = Camera.open();
             Camera.Parameters params = mCamera.getParameters();
             params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            switch (flashState){
+            switch (flashState) {
                 case 1:
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     flash.setImageResource(R.drawable.camera_flash_off);
@@ -216,51 +216,156 @@ public class HappieCameraActivity extends Activity {
 
 
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+
+            for(int i = 0; i < validPhotoDimensions.size(); i++) {
+                Camera.Size tmp = validPhotoDimensions.get(i);
+                Log.d(TAG, "Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
+            }
+
             int i = 0;
             Camera.Size jnLimit = null;
-            switch(HappieCamera.quality){
+            switch (HappieCamera.quality) {
                 case 0: // High Compression
-                    jnLimit = mCamera.new Size(1024,  768);
+                    Log.d(TAG, "High Compression: 1280x960");
+                    jnLimit = mCamera.new Size(1280, 960);
                     break;
                 case 1: // Medium Compression
+                    Log.d(TAG, "Medium Compression: 2560x1440");
                     jnLimit = mCamera.new Size(2560, 1440);
                     break;
                 case 2: // Low Compression
+                    Log.d(TAG, "Low Compression: 4096x2304");
                     jnLimit = mCamera.new Size(4096, 2304);
                     break;
             }
 
-            if(jnLimit != null && validPhotoDimensions.size() != 1) {
+            int lastLongSide = 0, lastShortSide = 0;
+            if (jnLimit != null && validPhotoDimensions.size() != 1) {
                 i = validPhotoDimensions.size();
-                while(--i > 0) {
+                while (--i > 0) {
                     Camera.Size tmp = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-                    if(tmp.width > tmp.height) {
-                        longSide  = tmp.width;
+                    if (tmp.width > tmp.height) {
+                        longSide = tmp.width;
                         shortSide = tmp.height;
                     } else {
-                        longSide  = tmp.height;
+                        longSide = tmp.height;
                         shortSide = tmp.width;
                     }
-                    if(jnLimit.width >= longSide && jnLimit.height >= shortSide) {
-                        break;
+                    if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
+                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                            lastLongSide = longSide;
+                            lastShortSide = shortSide;
+                        } else {
+                            i++;
+                            break;
+                        }
+                    } else {
+                        if(lastLongSide!=0 && lastShortSide!=0) {
+                            i++;
+                            break;
+                        }
                     }
                 }
             }
+
             Camera.Size currentSize = params.getPictureSize();
             Camera.Size maxSize = validPhotoDimensions.get(i);
-            if(currentSize.height < maxSize.height || currentSize.width < maxSize.width) {
+
+            Log.d(TAG, "current size: " + currentSize.width + "x" + currentSize.height);
+            Log.d(TAG, "max size: " + maxSize.width + "x" + maxSize.height);
+
+            if (currentSize.height > maxSize.height || currentSize.width > maxSize.width) {
+                Log.d(TAG, "current size greater than max size, resize to max size " + maxSize.width + "x" + maxSize.height);
+
                 params.setPictureSize(maxSize.width, maxSize.height);
             }
 
-            //hardwired to set picture size to 1280 x 960. this was changed by Anthony
-            params.setPictureSize(1280, 960);
+            Camera.Size pictureSize = params.getPictureSize();
+            Log.d(TAG, "picture size: " + pictureSize.width + "x" + pictureSize.height);
+
             params.setJpegQuality(50);
             mCamera.setParameters(params);
         } catch (Exception e) {
-            HappieCamera.callbackContext.error("Failed to initialize the camera");
-            PluginResult r = new PluginResult(PluginResult.Status.ERROR);
-            HappieCamera.callbackContext.sendPluginResult(r);
+            Log.d(TAG, "initCameraSession exception: " + e.getMessage());
+
+            //There is an intermittent failure while running setParameters, do not close the camera in that case
+            //since the call back will fire pre-maturely and JN will not get notified.
+
+            Camera.Parameters params = mCamera.getParameters();
+            List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
+
+            for(int i = 0; i < validPhotoDimensions.size(); i++) {
+                Camera.Size tmp = validPhotoDimensions.get(i);
+                Log.d(TAG, "Exception: Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
+            }
+
+            int i = 0;
+            Camera.Size jnLimit = null;
+            switch (HappieCamera.quality) {
+                case 0: // High Compression
+                    Log.d(TAG, "Exception: High Compression: 1280x960");
+                    jnLimit = mCamera.new Size(1280, 960);
+                    break;
+                case 1: // Medium Compression
+                    Log.d(TAG, "Exception: Medium Compression: 2560x1440");
+                    jnLimit = mCamera.new Size(2560, 1440);
+                    break;
+                case 2: // Low Compression
+                    Log.d(TAG, "Exception: Low Compression: 4096x2304");
+                    jnLimit = mCamera.new Size(4096, 2304);
+                    break;
+            }
+
+            int lastLongSide = 0, lastShortSide = 0;
+            if (jnLimit != null && validPhotoDimensions.size() != 1) {
+                i = validPhotoDimensions.size();
+                while (--i > 0) {
+                    Camera.Size tmp = validPhotoDimensions.get(i);
+                    int longSide, shortSide;
+                    if (tmp.width > tmp.height) {
+                        longSide = tmp.width;
+                        shortSide = tmp.height;
+                    } else {
+                        longSide = tmp.height;
+                        shortSide = tmp.width;
+                    }
+                    if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
+                        if (lastLongSide <= longSide || lastShortSide <= shortSide) {
+                            lastLongSide = longSide;
+                            lastShortSide = shortSide;
+                        } else {
+                            i++;
+                            break;
+                        }
+                    } else {
+                        if(lastLongSide!=0 && lastShortSide!=0) {
+                            i++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (validPhotoDimensions != null) {
+                Camera.Size currentSize = params.getPictureSize();
+                Camera.Size maxSize = validPhotoDimensions.get(i);
+
+                Log.d(TAG, "exception: current size: " + currentSize.width + "x" + currentSize.height);
+                Log.d(TAG, "exception: max size: " + maxSize.width + "x" + maxSize.height);
+
+                if (currentSize.height > maxSize.height || currentSize.width > maxSize.width) {
+                    Log.d(TAG, "exception: current size greater than max size, resize to max size " + maxSize.width + "x" + maxSize.height);
+
+                    params.setPictureSize(maxSize.width, maxSize.height);
+                }
+            }
+
+            Camera.Size pictureSize = params.getPictureSize();
+            Log.d(TAG, "exception: picture size: " + pictureSize.width + "x" + pictureSize.height);
+
+            params.setJpegQuality(50);
+            mCamera.setParameters(params);
         }
     }
 
