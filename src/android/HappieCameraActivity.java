@@ -245,6 +245,10 @@ public class HappieCameraActivity extends Activity {
                 while (--i > 0) {
                     Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
+
+                    // Skip square dimensions as they trigger selecting smaller image dimensions
+                    if (validDimensions.width == validDimensions.height) continue;
+
                     if (validDimensions.width > validDimensions.height) {
                         longSide = validDimensions.width;
                         shortSide = validDimensions.height;
@@ -252,6 +256,7 @@ public class HappieCameraActivity extends Activity {
                         longSide = validDimensions.height;
                         shortSide = validDimensions.width;
                     }
+
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
                         if (lastLongSide <= longSide || lastShortSide <= shortSide) {
                             lastLongSide = longSide;
@@ -323,6 +328,10 @@ public class HappieCameraActivity extends Activity {
                 while (--i > 0) {
                     Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
+
+                    // Skip square dimensions as they trigger selecting smaller image dimensions
+                    if (validDimensions.width == validDimensions.height) continue;
+
                     if (validDimensions.width > validDimensions.height) {
                         longSide = validDimensions.width;
                         shortSide = validDimensions.height;
@@ -330,6 +339,7 @@ public class HappieCameraActivity extends Activity {
                         longSide = validDimensions.height;
                         shortSide = validDimensions.width;
                     }
+
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
                         if (lastLongSide <= longSide || lastShortSide <= shortSide) {
                             lastLongSide = longSide;
