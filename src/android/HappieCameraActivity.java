@@ -218,8 +218,8 @@ public class HappieCameraActivity extends Activity {
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
 
             for(int i = 0; i < validPhotoDimensions.size(); i++) {
-                Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
+                Camera.Size validDimensions = validPhotoDimensions.get(i);
+                Log.d(TAG, "Supported Picture Size i=" + i + ": " + validDimensions.width + "x" + validDimensions.height);
             }
 
             int i = 0;
@@ -243,14 +243,14 @@ public class HappieCameraActivity extends Activity {
             if (jnLimit != null && validPhotoDimensions.size() != 1) {
                 i = validPhotoDimensions.size();
                 while (--i > 0) {
-                    Camera.Size tmp = validPhotoDimensions.get(i);
+                    Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-                    if (tmp.width > tmp.height) {
-                        longSide = tmp.width;
-                        shortSide = tmp.height;
+                    if (validDimensions.width > validDimensions.height) {
+                        longSide = validDimensions.width;
+                        shortSide = validDimensions.height;
                     } else {
-                        longSide = tmp.height;
-                        shortSide = tmp.width;
+                        longSide = validDimensions.height;
+                        shortSide = validDimensions.width;
                     }
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
                         if (lastLongSide <= longSide || lastShortSide <= shortSide) {
@@ -296,8 +296,8 @@ public class HappieCameraActivity extends Activity {
             List<Camera.Size> validPhotoDimensions = params.getSupportedPictureSizes();
 
             for(int i = 0; i < validPhotoDimensions.size(); i++) {
-                Camera.Size tmp = validPhotoDimensions.get(i);
-                Log.d(TAG, "Exception: Supported Picture Size i=" + i + ": " + tmp.width + "x" + tmp.height);
+                Camera.Size validDimensions = validPhotoDimensions.get(i);
+                Log.d(TAG, "Exception: Supported Picture Size i=" + i + ": " + validDimensions.width + "x" + validDimensions.height);
             }
 
             int i = 0;
@@ -321,14 +321,14 @@ public class HappieCameraActivity extends Activity {
             if (jnLimit != null && validPhotoDimensions.size() != 1) {
                 i = validPhotoDimensions.size();
                 while (--i > 0) {
-                    Camera.Size tmp = validPhotoDimensions.get(i);
+                    Camera.Size validDimensions = validPhotoDimensions.get(i);
                     int longSide, shortSide;
-                    if (tmp.width > tmp.height) {
-                        longSide = tmp.width;
-                        shortSide = tmp.height;
+                    if (validDimensions.width > validDimensions.height) {
+                        longSide = validDimensions.width;
+                        shortSide = validDimensions.height;
                     } else {
-                        longSide = tmp.height;
-                        shortSide = tmp.width;
+                        longSide = validDimensions.height;
+                        shortSide = validDimensions.width;
                     }
                     if (jnLimit.width >= longSide && jnLimit.height >= shortSide) {
                         if (lastLongSide <= longSide || lastShortSide <= shortSide) {
