@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -215,7 +216,7 @@ public class HappieCameraActivity extends Activity {
             }
 
             List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
-            List<Camera.Size> validPhotoDimensions = new List<Camera.Size>();
+            List<Camera.Size> validPhotoDimensions = new ArrayList<Camera.Size>();
 
             for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
                 Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
@@ -301,7 +302,7 @@ public class HappieCameraActivity extends Activity {
 
             Camera.Parameters params = mCamera.getParameters();
             List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
-            List<Camera.Size> validPhotoDimensions = new List<Camera.Size>();
+            List<Camera.Size> validPhotoDimensions = new ArrayList<Camera.Size>();
 
             for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
                 Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
