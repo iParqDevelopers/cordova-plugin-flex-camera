@@ -215,7 +215,7 @@ public class HappieCameraActivity extends Activity {
             }
 
             List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
-            List<Camera.Size> validPhotoDimensions = new ArrayList<Camera.Size>();
+            List<Camera.Size> validPhotoDimensions = new List<Camera.Size>();
 
             for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
                 Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
@@ -301,7 +301,7 @@ public class HappieCameraActivity extends Activity {
 
             Camera.Parameters params = mCamera.getParameters();
             List<Camera.Size> supportedPhotoDimensions = params.getSupportedPictureSizes();
-            List<Camera.Size> validPhotoDimensions = new ArrayList<Camera.Size>();
+            List<Camera.Size> validPhotoDimensions = new List<Camera.Size>();
 
             for(int i = 0; i < supportedPhotoDimensions.size(); i++) {
                 Camera.Size supportedDimensions = supportedPhotoDimensions.get(i);
